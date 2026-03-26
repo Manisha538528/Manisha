@@ -1,12 +1,18 @@
-from fastapi import FastAPI
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
-app = FastAPI()
+# Sample data
+data = pd.DataFrame({
+    'months': [6, 12, 24, 36],
+    'cost': [1000, 2020, 3500, 5000]
+})
 
-@app.get("/")
-def home():
-    return {"message": "API is running"}
+X = data[['months']]
+y = data['cost']
 
-@app.post("/predict")
-def predict(data: dict):
-    value = data.get("value", 0)
-    return {"prediction": value * 10}
+model = LinearRegression()
+model.fit(X, y)
+
+# Test prediction
+print(model.predict([[18]]))
